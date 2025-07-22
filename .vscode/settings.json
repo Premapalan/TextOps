@@ -1,0 +1,20 @@
+{
+    "C_Cpp.default.compilerPath": "D:\\Code\\msys64\\mingw64\\bin\\gcc.exe",
+    "C_Cpp.default.cppStandard": "c++20",
+    "C_Cpp.default.cStandard": "c17",
+    "C_Cpp.default.intelliSenseMode": "windows-gcc-x64",
+    "C_Cpp.autocompleteAddParentheses": true,
+    "C_Cpp.errorSquiggles": "enabled",
+    "editor.tabCompletion": "on",
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.formatOnSave": true
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.formatOnSave": true
+    },
+    "files.associations": {
+        "string_view": "cpp"
+    }
+}
