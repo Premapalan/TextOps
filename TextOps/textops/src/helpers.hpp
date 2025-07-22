@@ -1,14 +1,15 @@
 #pragma once
-#include <string_view>
+
 #include <iostream>
+#include <string_view>
 
 namespace textops
 {
     namespace helper
     {
-        void print(std::string_view message)
+        inline void print(std::string_view message)
         {
             std::cout << message << std::endl;
         }
-    }
-}
+    } // namespace helper
+} // namespace textops
