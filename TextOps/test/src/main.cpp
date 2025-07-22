@@ -2,6 +2,6 @@
 
 int main()
 {
-    test();
+    testFn();
     return 0;
 }

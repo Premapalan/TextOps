@@ -2,4 +2,4 @@
 
 #include "helpers.hpp"
 
-void test();
+void testFn();

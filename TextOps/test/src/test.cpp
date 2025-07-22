@@ -1,6 +1,6 @@
 #include "test.hpp"
 
-void test()
+void testFn()
 {
     textops::helper::print("Welcome to TextOps lib");
 }
