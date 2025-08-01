@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "d:/C++Projects/Project/**",
+                "${workspaceFolder}/TextOps/out/Release/_deps/fmt-src/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-gcc-x64",
+            "mergeConfigurations": false,
+            "recursiveIncludes": {},
+            "compilerPath": "D:\\Code\\msys64\\mingw64\\bin\\gcc.exe",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}
