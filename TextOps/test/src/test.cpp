@@ -1,8 +1,8 @@
 #include "test.hpp"
+#include <iostream>
 
 void testFn()
 {
-    textops::helper::print("Welcome to TextOps lib");
-    textops::helper::printFormat("whatever");
-    textops::helper::testSimpleTextwithParams();
+    textops::Msg<std::string> msg("My name is {name}", "Prasath");
+    std::cout << msg.getFormat() << std::endl;
 }

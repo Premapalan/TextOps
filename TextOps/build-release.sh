@@ -10,3 +10,6 @@ echo "Building the Project...."
 cmake --build .
 
 cd ../..
+
+echo "Script has finished. Press Enter to exit..."
+read  # waits for Enter key press

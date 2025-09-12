@@ -1,6 +1,1 @@
-#include <string>
-
-namespace textops
-{
-    // TBI
-}
+#include "textHandler.hpp"
