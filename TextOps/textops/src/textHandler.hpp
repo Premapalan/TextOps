@@ -1,11 +1,10 @@
 #pragma once
 
+#include <fmt/args.h>
 #include <string>
 #include <tuple>
 #include <vector>
 #include <regex>
-#include <utility>
-#include "fmt/args.h"
 
 namespace textops
 {
@@ -14,11 +13,16 @@ namespace textops
     {
         std::string key_;
         std::tuple<Args...> args_;
-        template <typename... ArgsT>
-        std::string format_helper(const std::string &key, const std::tuple<ArgsT...> &args) const
+        fmt::dynamic_format_arg_store<fmt::format_context> store_;
+
+        // Push tags and corresponding args into the store
+        void push_args_with_tags(const std::vector<std::string> &tags)
         {
-            return std::apply([key](auto &&...unpackedArgs)
-                              { return fmt::format(key, std::forward<decltype(unpackedArgs)>(unpackedArgs)...); }, args);
+            store_.clear();
+
+            std::size_t index = 0;
+            std::apply([&](const auto &...unpackedArgs)
+                       { ((store_.push_back(fmt::arg(tags[index++].c_str(), unpackedArgs))), ...); }, args_);
         }
 
     public:
@@ -29,18 +33,28 @@ namespace textops
 
         const std::tuple<Args...> &getArgs() const { return args_; }
 
-        std::string getFormat() const { return format_helper(key_, args_); }
-
         std::vector<std::string> getTags() const
         {
             std::vector<std::string> tags;
             std::regex rgx("\\{([^{}]+)\\}");
             auto begin = std::sregex_iterator(key_.begin(), key_.end(), rgx);
             auto end = std::sregex_iterator();
-
             for (auto it = begin; it != end; ++it)
+            {
                 tags.push_back((*it)[1].str());
+            }
             return tags;
         }
+
+        std::string getFormat()
+        {
+            auto tags = getTags();
+            push_args_with_tags(tags);
+            return fmt::vformat(key_, store_);
+        }
+
+        // Access the store member publicly if needed
+        const fmt::dynamic_format_arg_store<fmt::format_context> &getStore() const { return store_; }
     };
-}
+
+} // namespace textops
