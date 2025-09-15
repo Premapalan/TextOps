@@ -26,7 +26,7 @@ namespace textops
         }
 
     public:
-        Msg(const std::string &key) : key_(key) {}
+        Msg(const std::string &key) : key_(key), args_() {}
 
         Msg(const std::string &key, Args &&...args)
             : key_(key), args_(std::forward<Args>(args)...) {}
@@ -48,13 +48,16 @@ namespace textops
             return tags;
         }
 
-        std::string formatMessage() { return formatMessageWithStore(store_); }
-
-        std::string formatMessageWithStore(const fmt::dynamic_format_arg_store<fmt::format_context> &store)
+        std::string formatMessage()
         {
             auto tags = extractFormatTags();
             populateStoreWithTaggedArgs(tags);
-            return fmt::vformat(key_, store);
+            return store_.size() > 0 ? fmt::vformat(key_, store_) : key_;
+        }
+
+        std::string formatMessageWithStore(const fmt::dynamic_format_arg_store<fmt::format_context> &store)
+        {
+            return fmt::vformat(key_, store_);
         }
 
         // Access the store member publicly if needed
