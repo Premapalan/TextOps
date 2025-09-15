@@ -16,7 +16,7 @@ namespace textops
         fmt::dynamic_format_arg_store<fmt::format_context> store_;
 
         // Push tags and corresponding args into the store
-        void push_args_with_tags(const std::vector<std::string> &tags)
+        void populateStoreWithTaggedArgs(const std::vector<std::string> &tags)
         {
             store_.clear();
 
@@ -26,6 +26,8 @@ namespace textops
         }
 
     public:
+        Msg(const std::string &key) : key_(key) {}
+
         Msg(const std::string &key, Args &&...args)
             : key_(key), args_(std::forward<Args>(args)...) {}
 
@@ -33,7 +35,7 @@ namespace textops
 
         const std::tuple<Args...> &getArgs() const { return args_; }
 
-        std::vector<std::string> getTags() const
+        std::vector<std::string> extractFormatTags() const
         {
             std::vector<std::string> tags;
             std::regex rgx("\\{([^{}]+)\\}");
@@ -46,15 +48,17 @@ namespace textops
             return tags;
         }
 
-        std::string getFormat()
+        std::string formatMessage() { return formatMessageWithStore(store_); }
+
+        std::string formatMessageWithStore(const fmt::dynamic_format_arg_store<fmt::format_context> &store)
         {
-            auto tags = getTags();
-            push_args_with_tags(tags);
-            return fmt::vformat(key_, store_);
+            auto tags = extractFormatTags();
+            populateStoreWithTaggedArgs(tags);
+            return fmt::vformat(key_, store);
         }
 
         // Access the store member publicly if needed
-        const fmt::dynamic_format_arg_store<fmt::format_context> &getStore() const { return store_; }
+        const fmt::dynamic_format_arg_store<fmt::format_context> &getArgumentStore() const { return store_; }
     };
 
 } // namespace textops
