@@ -1,15 +1,23 @@
 #include "test.hpp"
 #include <iostream>
+#include <typeinfo>
 
 void testFn()
 {
-    textops::Msg<std::string, int> msg1("My name is {name} & {age}");
-    fmt::dynamic_format_arg_store<fmt::format_context> store{};
-    store.push_back(fmt::arg("name", "Pras"));
-    store.push_back(fmt::arg("age", "10"));
+    textops::Msg<> msg1("My name is {name} & {age}");
+    msg1.assignParameterValue("name", "Prasa");
+    msg1.assignParameterValue("age", 10);
 
-    std::cout << msg1.formatMessageWithStore(store) << std::endl;
+    std::cout << msg1.formatMessage() << std::endl;
 
     textops::Msg<> msg2("My name is Prasath Premapalan");
     std::cout << msg2.formatMessage() << std::endl;
+
+    textops::Msg<std::string, std::string> msg3("My name is {name} and last name is {lastName}", "Prasath", "Premapalan");
+    std::cout << msg3.formatMessage() << std::endl;
+
+    int x = 42;
+    std::cout << "Type of x: " << typeid(x).name() << std::endl;
+
+    std::cout << "Type of x: " << typeid("Prasath").name() << std::endl;
 }
