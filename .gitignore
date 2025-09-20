@@ -1,0 +1,6 @@
+# Ignore build directory
+TextOps/out/
+
+# Ignore logs
+.DS_Store
+rt
