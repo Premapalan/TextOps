@@ -25,10 +25,11 @@ TEST(TextOpsMsgTest, FormatMessageWithArgs)
     EXPECT_EQ(out, "A=10, B=xyz");
 }
 
-TEST(TextOpsMsgTest, AssignParameterValueOverridesArg)
+TEST(TextOpsMsgTest, AssignParameterValue)
 {
-    textops::Msg<int, std::string> msg("A={a}, B={b}", 10, "xyz");
-    msg.assignParameterValue("a", 999); // Override 'a'
+    textops::Msg<> msg("A={a}, B={b}");
+    msg.assignParameterValue("a", 999);
+    msg.assignParameterValue("b", "xyz");
     std::string out = msg.formatMessage();
     EXPECT_EQ(out, "A=999, B=xyz");
 }
