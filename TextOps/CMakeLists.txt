@@ -36,5 +36,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(tl_expected)
 
+# gtest
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG main      # Or set a specific release/tag
+)
+FetchContent_MakeAvailable(googletest)
+
 add_subdirectory(textops)
 add_subdirectory(test)

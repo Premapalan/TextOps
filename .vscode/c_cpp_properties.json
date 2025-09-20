@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "d:/C++Projects/Project/**",
-                "${workspaceFolder}/TextOps/out/Release/_deps/fmt-src/include"
+                "${workspaceFolder}/TextOps/out/Release/_deps/fmt-src/include",
+                "${workspaceFolder}/TextOps/out/Release/_deps/googletest-src/googletest/include",
+                "${workspaceFolder}/TextOps/textops/src"
             ],
             "defines": [
                 "_DEBUG",

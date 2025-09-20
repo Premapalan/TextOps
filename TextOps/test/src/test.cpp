@@ -2,22 +2,33 @@
 #include <iostream>
 #include <typeinfo>
 
-void testFn()
+// Test fixture for Msg template class
+TEST(TextOpsMsgTest, ConstructionAndKeyAccess)
 {
-    textops::Msg<> msg1("My name is {name} & {age}");
-    msg1.assignParameterValue("name", "Prasa");
-    msg1.assignParameterValue("age", 10);
+    textops::Msg<int, std::string> msg("Value: {val}, Name: {name}", 123, "Test");
+    EXPECT_EQ(msg.getKey(), "Value: {val}, Name: {name}");
+}
 
-    std::cout << msg1.formatMessage() << std::endl;
+TEST(TextOpsMsgTest, ExtractFormatTags)
+{
+    textops::Msg<int, std::string> msg("Id: {id}, Label: {label}", 42, "demo");
+    auto tags = msg.extractFormatTags();
+    ASSERT_EQ(tags.size(), 2);
+    EXPECT_EQ(tags[0], "id");
+    EXPECT_EQ(tags[1], "label");
+}
 
-    textops::Msg<> msg2("My name is Prasath Premapalan");
-    std::cout << msg2.formatMessage() << std::endl;
+TEST(TextOpsMsgTest, FormatMessageWithArgs)
+{
+    textops::Msg<int, std::string> msg("A={a}, B={b}", 10, "xyz");
+    std::string out = msg.formatMessage();
+    EXPECT_EQ(out, "A=10, B=xyz");
+}
 
-    textops::Msg<std::string, std::string> msg3("My name is {name} and last name is {lastName}", "Prasath", "Premapalan");
-    std::cout << msg3.formatMessage() << std::endl;
-
-    int x = 42;
-    std::cout << "Type of x: " << typeid(x).name() << std::endl;
-
-    std::cout << "Type of x: " << typeid("Prasath").name() << std::endl;
+TEST(TextOpsMsgTest, AssignParameterValueOverridesArg)
+{
+    textops::Msg<int, std::string> msg("A={a}, B={b}", 10, "xyz");
+    msg.assignParameterValue("a", 999); // Override 'a'
+    std::string out = msg.formatMessage();
+    EXPECT_EQ(out, "A=999, B=xyz");
 }

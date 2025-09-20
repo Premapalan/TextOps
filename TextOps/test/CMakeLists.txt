@@ -8,7 +8,7 @@ add_executable(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../textops/src)
-target_link_libraries(${PROJECT_NAME} PRIVATE textops)
+target_link_libraries(${PROJECT_NAME} PRIVATE textops GTest::gtest_main)
 
 message(STATUS "constructed path : ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}")
 
@@ -20,3 +20,7 @@ add_custom_command(
     COMMENT "Creating symbolic link for the program"
 
 )
+
+enable_testing()
+
+include(GoogleTest)

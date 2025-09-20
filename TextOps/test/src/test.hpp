@@ -1,4 +1,4 @@
 #pragma once
-#include "textHandler.hpp"
 
-void testFn();
+#include "textHandler.hpp"
+#include <gtest/gtest.h>
