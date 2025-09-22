@@ -7,6 +7,7 @@
 #include <regex>
 #include <variant>
 #include <unordered_map>
+#include <cassert>
 
 namespace textops
 {
@@ -23,6 +24,8 @@ namespace textops
         // Push tags and corresponding args into the store
         void populateStoreWithTaggedArgs(const std::vector<std::string> &tags)
         {
+            assert(tags.size() == sizeof...(Args) && "Tags count must match args count");
+
             store_.clear();
             std::size_t index = 0;
             std::apply([&](const auto &...unpackedArgs)
@@ -41,16 +44,20 @@ namespace textops
 
     public:
         Msg(const std::string &key, Args &&...args)
-            : key_(key), args_(std::forward<Args>(args)...) {}
+            : key_(key), args_(std::forward<Args>(args)...)
+        {
+            assert(!key_.empty() && "Key should not be empty");
+        }
 
         const std::string &getKey() const { return key_; }
 
         const std::tuple<Args...> &getArgs() const { return args_; }
 
-        template <typename T1, typename T2>
-        void assignParameterValue(T1 &&tag, T2 &&val)
+        template <typename T1>
+        void assignParameterValue(const std::string &tag, T1 &&val)
         {
-            arg_map_[std::string(std::forward<T1>(tag))] = std::forward<T2>(val);
+            assert(!tag.empty() && "Tag must not be empty");
+            arg_map_[tag] = std::forward<T1>(val);
             rebuildStore();
         }
 
