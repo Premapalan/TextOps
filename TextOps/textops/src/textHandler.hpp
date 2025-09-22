@@ -5,6 +5,8 @@
 #include <tuple>
 #include <vector>
 #include <regex>
+#include <variant>
+#include <unordered_map>
 
 namespace textops
 {
@@ -15,6 +17,9 @@ namespace textops
         std::tuple<Args...> args_;
         fmt::dynamic_format_arg_store<fmt::format_context> store_;
 
+        using ArgValue = std::variant<int, double, std::string, const char *, bool>;
+        std::unordered_map<std::string, ArgValue> arg_map_;
+
         // Push tags and corresponding args into the store
         void populateStoreWithTaggedArgs(const std::vector<std::string> &tags)
         {
@@ -22,6 +27,16 @@ namespace textops
             std::size_t index = 0;
             std::apply([&](const auto &...unpackedArgs)
                        { ((store_.push_back(fmt::arg(tags[index++].c_str(), unpackedArgs))), ...); }, args_);
+        }
+
+        void rebuildStore()
+        {
+            store_.clear();
+            for (auto &[tag, val] : arg_map_)
+            {
+                std::visit([&](auto &&v)
+                           { store_.push_back(fmt::arg(tag.c_str(), v)); }, val);
+            }
         }
 
     public:
@@ -35,7 +50,8 @@ namespace textops
         template <typename T1, typename T2>
         void assignParameterValue(T1 &&tag, T2 &&val)
         {
-            store_.push_back(fmt::arg(std::forward<T1>(tag), std::forward<T2>(val)));
+            arg_map_[std::string(std::forward<T1>(tag))] = std::forward<T2>(val);
+            rebuildStore();
         }
 
         std::vector<std::string> extractFormatTags() const
@@ -53,9 +69,14 @@ namespace textops
 
         std::string formatMessage()
         {
-            auto tags = extractFormatTags();
             if (store_.size() == 0)
-                populateStoreWithTaggedArgs(tags);
+            {
+                populateStoreWithTaggedArgs(extractFormatTags());
+            }
+            if (!arg_map_.empty())
+            {
+                rebuildStore();
+            }
             return store_.size() > 0 ? fmt::vformat(key_, store_) : key_;
         }
 
