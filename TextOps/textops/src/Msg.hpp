@@ -42,4 +42,4 @@ namespace textops
 
 } // namespace textops
 
-#include "textHandler.tpp" // Implementation file for templates
+#include "Msg.tpp" // Implementation file for templates
