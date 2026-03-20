@@ -14,13 +14,15 @@ message(STATUS "constructed path : ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/${PROJECT
 
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E create_symlink
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}
-        ${CMAKE_SOURCE_DIR}/rt
-    COMMENT "Creating symbolic link for the program"
-
+    COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:${PROJECT_NAME}>
+        ${CMAKE_SOURCE_DIR}/rt.exe
+    COMMENT "Copying test executable"
 )
 
+# --- Test discovery ---
 enable_testing()
-
 include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME}
+    PROPERTIES ENVIRONMENT "GTEST_COLOR=yes"  
+)

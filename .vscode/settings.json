@@ -91,5 +91,19 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp"
-    }
+    },
+    "terminal.explorerKind": "integrated",
+    "terminal.integrated.profiles.windows": {
+        "MSYS2 Bash": {
+            "path": "D:\\Code\\msys64\\usr\\bin\\bash.exe",
+            "args": ["--login", "-i"],
+            "env": {
+                "CHERE_INVOKING": "1",
+                "MSYSTEM": "MSYS",
+                "MSYS2_PATH_TYPE": "inherit"
+            }
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "MSYS2 Bash"
+    
 }
