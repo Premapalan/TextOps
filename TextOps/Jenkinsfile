@@ -29,7 +29,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat "%BUILD_DIR%\\test\\textops_tests.exe --gtest_output=xml:%BUILD_DIR%\\test_results.xml"
+                bat "%BUILD_DIR%\\test\\test.exe --gtest_output=xml:%BUILD_DIR%\\test_results.xml"
             }
         }
 
