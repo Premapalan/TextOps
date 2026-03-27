@@ -2,43 +2,48 @@ pipeline {
     agent any
 
     environment {
-        BUILD_DIR  = "out/Release"
-        PATH       = "D:/Code/msys64/mingw64/bin;${env.PATH}"
+        SOURCE_DIR = "TextOps"
+        BUILD_DIR  = "TextOps\\out\\Release"
     }
 
     stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Configure') {
             steps {
-                bat """
-                    cmake -S . -B %BUILD_DIR% ^
-                          -DCMAKE_BUILD_TYPE=Release ^
-                          -G Ninja
-                """
+                bat "cmake -S %SOURCE_DIR% -B %BUILD_DIR% -DCMAKE_BUILD_TYPE=Release -G Ninja"
             }
         }
 
         stage('Build') {
             steps {
-                bat 'cmake --build %BUILD_DIR% --parallel'
+                bat "cmake --build %BUILD_DIR% --parallel"
             }
         }
 
         stage('Test') {
             steps {
-                bat 'cd %BUILD_DIR% && ctest --output-on-failure --output-junit ctest_results.xml'
+                // Run GTest directly and output XML report
+                bat "%BUILD_DIR%\\test\\textops_tests.exe --gtest_output=xml:%BUILD_DIR%\\test_results.xml"
             }
         }
 
         stage('Benchmark') {
             steps {
-                bat '%BUILD_DIR%\\bench\\textops_bench.exe'
+                bat "%BUILD_DIR%\\bench\\textops_bench.exe"
             }
         }
     }
 
     post {
         always {
-            junit 'out/Release/ctest_results.xml'
+            junit allowEmptyResults: true,
+                  testResults: 'TextOps/out/Release/test_results.xml'
         }
         success { echo 'Build passed!' }
         failure { echo 'Build failed!' }
