@@ -4,6 +4,7 @@ pipeline {
     environment {
         SOURCE_DIR = "TextOps"
         BUILD_DIR  = "TextOps\\out\\Release"
+        PATH       = "D:\\Code\\msys64\\mingw64\\bin;D:\\Code\\msys64\\usr\\bin;${env.PATH}"
     }
 
     stages {
@@ -28,7 +29,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Run GTest directly and output XML report
                 bat "%BUILD_DIR%\\test\\textops_tests.exe --gtest_output=xml:%BUILD_DIR%\\test_results.xml"
             }
         }
