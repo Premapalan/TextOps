@@ -45,5 +45,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_subdirectory(textops)
+# --- Google Benchmark ---
+set(BENCHMARK_ENABLE_TESTING        OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_ENABLE_GTEST_TESTS    OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_ENABLE_PERF_COUNTERS  OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_INSTALL_DOCS          OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_USE_BUNDLED_GTEST     OFF CACHE BOOL "" FORCE)  # use your existing GTest
+
+FetchContent_Declare(
+    benchmark
+    GIT_REPOSITORY https://github.com/google/benchmark.git
+    GIT_TAG        v1.9.1
+)
+FetchContent_MakeAvailable(benchmark)
+
+target_compile_options(benchmark       PRIVATE -w)
+target_compile_options(benchmark_main  PRIVATE -w)
+
+add_subdirectory(textops_lib)
+add_subdirectory(bench)
 add_subdirectory(test)

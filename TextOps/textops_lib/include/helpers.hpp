@@ -15,7 +15,7 @@ namespace textops
             std::cout << message << std::endl;
         }
 
-        inline void printFormat(std::string_view message)
+        inline void printFormat(std::string_view messsage)
         {
             auto formatted = fmt::format("formatted messsage is : {}", message);
             std::cout << formatted << std::endl;

@@ -7,8 +7,10 @@ add_executable(${PROJECT_NAME}
     src/test.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ../textops/src)
-target_link_libraries(${PROJECT_NAME} PRIVATE textops GTest::gtest_main)
+target_include_directories(${PROJECT_NAME} PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_link_libraries(${PROJECT_NAME} PRIVATE textops_lib GTest::gtest_main)
 
 message(STATUS "constructed path : ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}")
 

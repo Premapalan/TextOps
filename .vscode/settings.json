@@ -1,8 +1,8 @@
 {
-    "C_Cpp.default.compilerPath": "D:\\Code\\msys64\\mingw64\\bin\\gcc.exe",
+    "C_Cpp.default.compilerPath": "D:\\Code\\msys64\\clang64\\bin\\clang++.exe",
     "C_Cpp.default.cppStandard": "c++20",
     "C_Cpp.default.cStandard": "c17",
-    "C_Cpp.default.intelliSenseMode": "windows-gcc-x64",
+    "C_Cpp.default.intelliSenseMode": "windows-clang-x64",
     "C_Cpp.autocompleteAddParentheses": true,
     "C_Cpp.errorSquiggles": "enabled",
     "editor.tabCompletion": "on",
@@ -99,11 +99,10 @@
             "args": ["--login", "-i"],
             "env": {
                 "CHERE_INVOKING": "1",
-                "MSYSTEM": "MSYS",
+                "MSYSTEM": "CLANG64",
                 "MSYS2_PATH_TYPE": "inherit"
             }
         }
     },
     "terminal.integrated.defaultProfile.windows": "MSYS2 Bash"
-    
 }
